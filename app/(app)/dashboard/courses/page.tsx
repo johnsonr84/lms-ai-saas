@@ -25,24 +25,35 @@ export default async function MyCoursesPage() {
     completedLessons: number;
   };
 
-  const startedCourses = courses.reduce<CourseWithProgress[]>((acc, course) => {
-    const { total, completed } = (course.modules ?? []).reduce(
-      (stats, m) =>
-        (m.lessons ?? []).reduce(
-          (s, l) => ({
-            total: s.total + 1,
-            completed: s.completed + (l.completedBy?.includes(user.id) ? 1 : 0),
-          }),
-          stats,
-        ),
-      { total: 0, completed: 0 },
-    );
+  const startedCourses: CourseWithProgress[] = (courses as Course[]).reduce(
+    (acc: CourseWithProgress[], course) => {
+      const { total, completed } = (course.modules ?? []).reduce(
+        (stats, m) =>
+          (m.lessons ?? []).reduce(
+            (s, l) => ({
+              total: s.total + 1,
+              completed:
+                s.completed +
+                (l.completedBy?.includes(user.id) ? 1 : 0),
+            }),
+            stats,
+          ),
+        { total: 0, completed: 0 },
+      );
 
-    if (completed > 0) {
-      acc.push({ ...course, totalLessons: total, completedLessons: completed });
-    }
-    return acc;
-  }, []);
+      if (completed > 0) {
+        acc.push({
+          ...course,
+          totalLessons: total,
+          completedLessons: completed,
+        });
+      }
+
+      return acc;
+    },
+    [] as CourseWithProgress[],
+  );
+
 
   return (
     <div className="min-h-screen bg-white overflow-hidden">
