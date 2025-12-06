@@ -63,25 +63,25 @@ This platform is designed as a **modern LMS boilerplate**, complete with:
 Ordered as requested:
 
 ### 1. 🦸 Hero Section  
-![Hero Screenshot](./screenshots/hero.png)
+![Hero Screenshot](./public/screenshots/hero.png)
 
 ### 2. ⭐ DDTestimonials  
-![Testimonials Screenshot](./screenshots/testimonials.png)
+![Testimonials Screenshot](./public/screenshots/testimonials.png)
 
 ### 3. 💵 Pricing Page  
-![Pricing Screenshot](./screenshots/pricing.png)
+![Pricing Screenshot](./public/screenshots/pricing.png)
 
 ### 4. 🔐 Clerk Authentication Flow  
-![Clerk Auth Screenshot](./screenshots/clerk-auth.png)
+![Clerk Auth Screenshot](./public/screenshots/clerk-auth.png)
 
 ### 5. 📊 Student Dashboard  
-![Dashboard Screenshot](./screenshots/dashboard.png)
+![Dashboard Screenshot](./public/screenshots/dashboard.png)
 
 ### 6. ⚛️ React Course Module  
-![React Course Screenshot](./screenshots/react-course.png)
+![React Course Screenshot](./public/screenshots/react-course.png)
 
 ### 7. 🐍 Python Video Lesson (Mux Player)  
-![Python Mux Video Screenshot](./screenshots/python-video.png)
+![Python Mux Video Screenshot](./public/screenshots/python-video.png)
 
 ---
 
