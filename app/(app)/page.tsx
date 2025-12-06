@@ -28,9 +28,6 @@ export default async function Home() {
     currentUser(),
   ]);
 
-  // Type for individual course items
-  type Course = (typeof courses)[number];
-
   const isSignedIn = !!user;
 
   return (

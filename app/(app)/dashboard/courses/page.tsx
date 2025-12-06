@@ -25,51 +25,52 @@ export default async function MyCoursesPage() {
     completedLessons: number;
   };
 
-  type ProgressStats = {
-    total: number;
-    completed: number;
-  };
+  const startedCourses = courses.reduce<CourseWithProgress[]>((acc, course) => {
+    const { total, completed } = (course.modules ?? []).reduce(
+      (stats, m) =>
+        (m.lessons ?? []).reduce(
+          (s, l) => ({
+            total: s.total + 1,
+            completed:
+              s.completed + (l.completedBy?.includes(user.id) ? 1 : 0),
+          }),
+          stats,
+        ),
+      { total: 0, completed: 0 },
+    );
 
-  // Derive module & lesson types from Course
-  type Module = NonNullable<Course["modules"]>[number];
-  type Lesson = NonNullable<Module["lessons"]>[number];
+    if (completed > 0) {
+      acc.push({
+        ...course,
+        totalLessons: total,
+        completedLessons: completed,
+      });
+    }
 
-  const startedCourses: CourseWithProgress[] = (courses as Course[]).reduce(
-    (acc: CourseWithProgress[], course) => {
-      const { total, completed } = (course.modules ?? []).reduce(
-        (stats: ProgressStats, m: Module) =>
-          (m.lessons ?? []).reduce(
-            (s: ProgressStats, l: Lesson) => ({
-              total: s.total + 1,
-              completed:
-                s.completed +
-                (l.completedBy?.includes(user.id) ? 1 : 0),
-            }),
-            stats,
-          ),
-        { total: 0, completed: 0 } as ProgressStats,
-      );
-
-      if (completed > 0) {
-        acc.push({
-          ...course,
-          totalLessons: total,
-          completedLessons: completed,
-        });
-      }
-
-      return acc;
-    },
-    [] as CourseWithProgress[],
-  );
+    return acc;
+  }, []);
 
   return (
     <div className="min-h-screen bg-white overflow-hidden">
+      {/* Animated gradient mesh background */}
+      {/* <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-violet-600/15 rounded-full blur-[120px] animate-pulse" />
+        <div
+          className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-fuchsia-600/10 rounded-full blur-[100px] animate-pulse"
+          style={{ animationDelay: "1s" }}
+        />
+        <div
+          className="absolute top-[40%] right-[20%] w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[80px] animate-pulse"
+          style={{ animationDelay: "2s" }}
+        />
+      </div> */}
+
       {/* Noise texture overlay */}
       <div
         className="fixed inset-0 pointer-events-none opacity-[0.015]"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+          backgroundImage:
+            url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"),
         }}
       />
 
