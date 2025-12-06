@@ -31,8 +31,7 @@ export default async function MyCoursesPage() {
         (m.lessons ?? []).reduce(
           (s, l) => ({
             total: s.total + 1,
-            completed:
-              s.completed + (l.completedBy?.includes(user.id) ? 1 : 0),
+            completed: s.completed + (l.completedBy?.includes(user.id) ? 1 : 0),
           }),
           stats,
         ),
@@ -40,13 +39,8 @@ export default async function MyCoursesPage() {
     );
 
     if (completed > 0) {
-      acc.push({
-        ...course,
-        totalLessons: total,
-        completedLessons: completed,
-      });
+      acc.push({ ...course, totalLessons: total, completedLessons: completed });
     }
-
     return acc;
   }, []);
 
