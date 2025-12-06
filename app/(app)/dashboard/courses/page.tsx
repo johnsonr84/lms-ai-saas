@@ -20,29 +20,46 @@ export default async function MyCoursesPage() {
 
   // Calculate completion for each course and filter to started ones
   type Course = (typeof courses)[number];
+
+  type ProgressStats = {
+    total: number;
+    completed: number;
+  };
+
   type CourseWithProgress = Course & {
     totalLessons: number;
     completedLessons: number;
   };
 
-  const startedCourses = courses.reduce<CourseWithProgress[]>((acc, course) => {
-    const { total, completed } = (course.modules ?? []).reduce(
-      (stats, m) =>
-        (m.lessons ?? []).reduce(
-          (s, l) => ({
-            total: s.total + 1,
-            completed: s.completed + (l.completedBy?.includes(user.id) ? 1 : 0),
-          }),
-          stats,
-        ),
-      { total: 0, completed: 0 },
-    );
+  const coursesArray = courses as Course[];
 
-    if (completed > 0) {
-      acc.push({ ...course, totalLessons: total, completedLessons: completed });
-    }
-    return acc;
-  }, []);
+  const startedCourses: CourseWithProgress[] = coursesArray.reduce(
+    (acc: CourseWithProgress[], course) => {
+      const { total, completed } = (course.modules ?? []).reduce(
+        (stats: ProgressStats, m: any) =>
+          (m.lessons ?? []).reduce(
+            (s: ProgressStats, l: any) => ({
+              total: s.total + 1,
+              completed:
+                s.completed + (l.completedBy?.includes(user.id) ? 1 : 0),
+            }),
+            stats,
+          ),
+        { total: 0, completed: 0 } as ProgressStats,
+      );
+
+      if (completed > 0) {
+        acc.push({
+          ...course,
+          totalLessons: total,
+          completedLessons: completed,
+        });
+      }
+
+      return acc;
+    },
+    [] as CourseWithProgress[],
+  );
 
   return (
     <div className="min-h-screen bg-white overflow-hidden">
