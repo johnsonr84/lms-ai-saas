@@ -13,7 +13,15 @@ import {
   createDocumentHandle,
   useQuery,
 } from "@sanity/sdk-react";
-import type { Note } from "@/sanity.types";
+
+// Local Note type (instead of importing from "@/sanity.types")
+type Note = {
+  _id: string;
+  _createdAt: string;
+  title?: string;
+  status?: "draft" | "inProgress" | "complete";
+  content?: string;
+};
 
 interface NoteCardProps {
   documentId: string;
@@ -112,8 +120,8 @@ export function NoteCard({ documentId }: NoteCardProps) {
       {notifications.length > 0 && (
         <div className="mb-4 space-y-1">
           {notifications.map((msg, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: Event notifications are transient and order-based
             <div
-              // biome-ignore lint/suspicious/noArrayIndexKey: Event notifications are transient and order-based
               key={i}
               className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded"
             >
