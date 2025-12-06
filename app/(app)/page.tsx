@@ -30,6 +30,9 @@ export default async function Home() {
 
   const isSignedIn = !!user;
 
+  // Local type derived from the fetched courses
+  type Course = (typeof courses)[number];
+
   return (
     <div className="min-h-screen bg-white text-black overflow-hidden">
       {/* Animated gradient mesh background */}
@@ -89,7 +92,8 @@ export default async function Home() {
             >
               Join DevDork&apos;s Academy and learn from expertly crafted courses,
               modules, and hands-on lessons. From free fundamentals to{" "}
-              <span className="text-fuchsia-400 font-bold">Pro exclusives</span> and{" "}
+              <span className="text-fuchsia-400 font-bold">Pro exclusives</span>{" "}
+              and{" "}
               <span className="text-cyan-400 font-bold">Ultra gems</span>.
             </p>
 
@@ -251,7 +255,12 @@ export default async function Home() {
                       className="flex items-center gap-2 text-sm text-zinc-500 font-bold"
                     >
                       <CheckCircle2
-                        className={`w-4 h-4 ${plan.color === "emerald" ? "text-emerald-600" : plan.color === "violet" ? "text-violet-600" : "text-cyan-600"}`}
+                        className={`w-4 h-4 ${plan.color === "emerald"
+                            ? "text-emerald-600"
+                            : plan.color === "violet"
+                              ? "text-violet-600"
+                              : "text-cyan-600"
+                          }`}
                       />
                       {feature}
                     </li>
@@ -278,7 +287,7 @@ export default async function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {(courses as Course[]).map((course: Course) => (
+            {courses.map((course: Course) => (
               <CourseCard
                 key={course.slug!.current!}
                 slug={{ current: course.slug!.current! }}
@@ -431,3 +440,9 @@ export default async function Home() {
     </div>
   );
 }
+
+
+
+
+
+
