@@ -1,13 +1,13 @@
-// import { SanityLive } from "@/sanity/lib/live";
+import { SanityLive } from "@/sanity/lib/live";
 import { ClerkProvider } from "@clerk/nextjs";
-// import { TutorWidget } from "@/components/tutor";
+import { TutorWidget } from "@/components/tutor";
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
       <div>{children}</div>
-      {/* <SanityLive /> */}
-      {/* <TutorWidget /> */}
+      <SanityLive />
+      <TutorWidget />
     </ClerkProvider>
   );
 }
