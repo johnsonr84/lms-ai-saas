@@ -30,12 +30,16 @@ export default async function MyCoursesPage() {
     completed: number;
   };
 
+  // Derive module & lesson types from Course
+  type Module = NonNullable<Course["modules"]>[number];
+  type Lesson = NonNullable<Module["lessons"]>[number];
+
   const startedCourses: CourseWithProgress[] = (courses as Course[]).reduce(
     (acc: CourseWithProgress[], course) => {
       const { total, completed } = (course.modules ?? []).reduce(
-        (stats: ProgressStats, m) =>
+        (stats: ProgressStats, m: Module) =>
           (m.lessons ?? []).reduce(
-            (s: ProgressStats, l) => ({
+            (s: ProgressStats, l: Lesson) => ({
               total: s.total + 1,
               completed:
                 s.completed +
