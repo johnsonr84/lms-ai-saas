@@ -58,9 +58,6 @@ This platform is designed as a **modern LMS boilerplate**, complete with:
 ---
 
 # 🖼️ Screenshots  
-*(You will upload the images — I will insert filenames after you share them.)*
-
-Ordered as requested:
 
 ### 1. 🦸 Hero Section  
 ![Hero Screenshot](./public/screenshots/hero.png)
