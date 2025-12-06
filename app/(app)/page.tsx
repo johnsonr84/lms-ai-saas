@@ -28,6 +28,9 @@ export default async function Home() {
     currentUser(),
   ]);
 
+  // Type for individual course items
+  type Course = (typeof courses)[number];
+
   const isSignedIn = !!user;
 
   return (
@@ -278,7 +281,7 @@ export default async function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {courses.map((course) => (
+            {(courses as Course[]).map((course: Course) => (
               <CourseCard
                 key={course.slug!.current!}
                 slug={{ current: course.slug!.current! }}
